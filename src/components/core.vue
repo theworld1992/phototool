@@ -3,28 +3,41 @@
     <header>
       <a  class="file">上传图片
         <input type="file" id="file"  accept="image/png,image/jpeg"  @change="readFile($event)" >
-      </a>
-      <input type="text" class="save" v-model="savename" placeholder="请输入保存的文件名" v-if="download">
-      <a  @click="save" :href="saveDataURI" :download="savename" class="download" v-if="download" >下载</a>
-      <a class="remove" v-if="download" @click="remove">删除图片</a>
-      <a v-if="download" @click="reset" class="reset">重置</a>
+      </a> 
+      <transition name="fade">
+        <input type="text" class="save" v-model="savename" placeholder="请输入保存的文件名" v-if="download">
+      </transition>
+      <transition name="fade">
+        <a  @click="save" :href="saveDataURI" :download="savename" class="download" v-if="download" >下载</a>
+      </transition>
+      <transition name="fade">
+        <a class="remove" v-if="download" @click="remove">删除图片</a>
+      </transition>
+      <transition name="fade">
+        <a v-if="download" @click="reset" class="reset">重置</a>
+      </transition>
     </header>
-    <div id="box" >
-      <img :src="dataURI" id="img" >
+    <div id="box">
+      <img :src="dataURI" id="img" ref="a" >
     </div>
+    <transition name="fade">
     <footer id="footer" v-if="download">
- <div class="swiper-container" v-if="download">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" style="background-image:url(/)" @click="lome">Lome</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)" @click="vintage">Vintage</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)" @click="clarity">Clarity</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)" @click="sinCity">SinCity</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)" @click="sunrise">Sunrise</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)" @click="corssProcess">CorssProcess</div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)"></div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)"></div>
-            <div class="swiper-slide" style="background-image:url(https://drscdn.500px.org/photo/197858439/m%3D1170_k%3D1/a2d8681688e797c643ea16704778ab39)"></div>
-            <div class="swiper-slide" style="background-image:url(/0)"></div>
+       <div class="swiper-container" v-if="download">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide" style="background-image:url(../static/lome.png)" @click="lome">Lome</div>
+            <div class="swiper-slide" style="background-image:url(../static/vintage.png)" @click="vintage">Vintage</div>
+            <div class="swiper-slide" style="background-image:url(../static/clarity.png)" @click="clarity">Clarity</div>
+            <div class="swiper-slide" style="background-image:url(../static/sincity.png)" @click="sinCity">SinCity</div>
+            <div class="swiper-slide" style="background-image:url(../static/sunrise.png)" @click="sunrise">Sunrise</div>
+            <div class="swiper-slide" style="background-image:url(../static/corssProcess.png)" @click="corssProcess">CorssProcess</div>
+            <div class="swiper-slide" style="background-image:url(../static/orangePeel.png)" @click="orangePeel">OrangePeel</div>
+            <div class="swiper-slide" style="background-image:url(../static/love.png)" @click="love">Love</div>
+            <div class="swiper-slide" style="background-image:url(../static/grungy.png)" @click="grungy">Grungy</div>
+            <div class="swiper-slide" style="background-image:url(../static/jarques.png)" @click="jarques">Jarques</div>
+            <div class="swiper-slide" style="background-image:url(../static/pinhole.png)" @click="pinhole">Pinhole</div>
+            <div class="swiper-slide" style="background-image:url(../static/oldBoot.png)" @click="oldBoot">OldBoot</div>
+            <div class="swiper-slide" style="background-image:url(../static/glowingSun.png)" @click="glowingSun">GlowingSun</div>
+            <div class="swiper-slide" style="background-image:url(../static/hazyDays.png)" @click="hazyDays">HazyDays</div>
         </div>
         <!-- Add Pagination -->
         <div class="swiper-pagination"></div>
@@ -32,6 +45,7 @@
         <div class="swiper-button-prev"></div>
     </div>
     </footer>
+   </transition> 
   </div>
 </template>
 
@@ -46,10 +60,6 @@ export default {
       saveDataURI:'',
       savename:""
     }
-  },
-  mounted:function(){
-  // 使用钩子，在创建dom时，创建swiper 
-    
   },
   methods:{
     readFile:function(event){
@@ -77,7 +87,6 @@ export default {
               var img = $("#img")[0]
               cx.drawImage(img,10,10,$("#img")[0].width>800?800:$("#img")[0].width,$("#img")[0].height>600?600:$("#img")[0].height)
             this.download = true
-
             }).then(resolve=>{
               // 初始化Swiper
               new Swiper('.swiper-container', {
@@ -97,8 +106,9 @@ export default {
                     slideShadows : true,
                 }
               })
+              console.log(666)
+            this.$emit("read",this.download)
             }) //异步结束
-
       },
       save:function(){
         this.saveDataURI = $("#canvas")[0].toDataURL("image/png")
@@ -107,6 +117,7 @@ export default {
         this.download = false
         this.dataURI = ''
         this.hadDataURI = false
+        this.$emit("read",this.download)
         $("#canvas").remove()
         $("#file")[0].value = ""
       },
@@ -195,27 +206,90 @@ export default {
           this.vibrance(75);
           this.render()
         })
-      }
+      },
+      orangePeel:function(){
+        Caman('#canvas', function () {
+          this.curves("rgb", [0, 0], [100, 50], [140, 200], [255, 255]);
+          this.vibrance(-30);
+          this.saturation(-30);
+          this.colorize("#ff9000", 30);
+          this.contrast(-5);
+          this.render()
+        })
+      },
+      love:function(){
+        Caman('#canvas', function () {
+          this.brightness(5);
+          this.exposure(8);
+          this.contrast(4);
+          this.colorize("#c42007", 30);
+          this.vibrance(50);
+          this.render()
+        })
+      },
+      grungy:function(){
+        Caman('#canvas', function () {
+          this.gamma(1.5);
+          this.clip(25);
+          this.saturation(-60);
+          this.contrast(5);
+          this.noise(5);
+          this.render()
+        })
+      },
+      jarques:function(){
+        Caman('#canvas', function () {
+          this.saturation(-35);
+          this.curves("b", [20, 0], [90, 120], [186, 144], [255, 230]);
+          this.curves("r", [0, 0], [144, 90], [138, 120], [255, 255]);
+          this.curves("g", [10, 0], [115, 105], [148, 100], [255, 248]);
+          this.curves("rgb", [0, 0], [120, 100], [128, 140], [255, 255])
+          this.render()
+        })
+      },
+      pinhole:function(){
+        Caman('#canvas', function () {
+          this.greyscale()
+          this.sepia(10)
+          this.exposure(10)
+          this.contrast(15)
+          this.render()
+        })
+      },
+      oldBoot:function(){
+        Caman('#canvas', function () {
+          this.saturation(-20)
+          this.vibrance(-50)
+          this.gamma(1.1)
+          this.sepia(30)
+          this.channels({
+              red: -10,
+              blue: 5
+          })
+          this.curves("rgb", [0, 0], [80, 50], [128, 230], [255, 255])
+          this.render()
+        })
+      },
+      glowingSun:function(){
+        Caman('#canvas', function () {
+          this.brightness(10);
+          this.gamma(0.8);
+          this.contrast(50);
+          this.render()
+        })
+      },
+      hazyDays:function(){
+        Caman('#canvas', function () {
+          this.gamma(1.2)
+          this.render()
+        })
+      },
 
   }
 }
 
 
 
-    // var swiper = new Swiper('.swiper-container', {
-    //     pagination: '.swiper-pagination',
-    //     effect: 'coverflow',
-    //     grabCursor: true,
-    //     centeredSlides: true,
-    //     slidesPerView: 'auto',
-    //     coverflow: {
-    //         rotate: 50,
-    //         stretch: 0,
-    //         depth: 100,
-    //         modifier: 1,
-    //         slideShadows : true
-    //     }
-    // });
 
 
 
@@ -309,4 +383,12 @@ export default {
         width: 200px;
         height: 130px;
     }
+
+  /*vue过渡效果*/
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
 </style>

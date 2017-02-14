@@ -10,18 +10,36 @@
       </ul>
     </div>
     <div id="content"> 
-      <core></core>  
+      <core v-on:read="isRead"></core>  
     </div>
-    <div id="range"></div>
+    <div id="range">
+      <transition name="fade">
+        <ranges v-if="isReadfile"></ranges>
+      </transition>
+    </div>
     <div id="photostyle"></div>
   </div>
 </template>
 
 <script>
 import core from 'components/core.vue'
+import ranges from 'components/ranges.vue'
+import range from 'components/range.vue'
 export default {
   components:{
     core,
+    ranges
+  },
+  data:function(){
+    return {
+      isReadfile:false,
+    }
+  },
+  methods:{
+    isRead:function(newvalue,a){
+      console.log(a)
+      this.isReadfile = newvalue
+    }
   }
 }
 </script>
